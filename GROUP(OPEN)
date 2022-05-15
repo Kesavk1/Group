@@ -12,3 +12,34 @@ QC                     PCA clustering.
 Differential
 -Gene expression(DEGs) DeSeq2            TSV(Gene list)
    -Visulisation
+
+
+
+
+rule raw_Fastqc:
+
+
+
+rule multiqc:
+
+
+rule preprocessing:
+
+
+rule fetch_genome:
+
+
+
+rule get_annotation:
+
+
+rule build_index:
+
+
+rule hiSAT2_align:
+
+
+rule rSeqc:
+
+
+rule DEG:
