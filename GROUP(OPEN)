@@ -1,0 +1,14 @@
+RNA Seq Analysis
+RAW data - Retrieved from SRA
+
+Stages                Tools             Format
+QuaLity Control        FastQC             FastQ
+Preprocessing          Trimmomatic.       FastQ
+Alignmnet              HiSAT2             BAM
+QC                     RSeqC
+Quantitation           HTSeq              TSV(read count file)
+Merge files to Table.  NGS experiment.    TSV
+QC                     PCA clustering.    
+Differential
+-Gene expression(DEGs) DeSeq2            TSV(Gene list)
+   -Visulisation
