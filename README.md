@@ -1,1 +1,4 @@
-# Group
+# Group Project
+
+RNA seq analysis
+
