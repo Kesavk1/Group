@@ -13,8 +13,12 @@ Differential
 -Gene expression(DEGs) DeSeq2            TSV(Gene list)
    -Visulisation
 
-
-
+DATASETS= ["SRR14675535",
+           "SRR14675539",
+           "SRR14675537",
+           "SRR14675538",
+           "SRR14675540"]
+           
 
 rule raw_Fastqc:
 
@@ -31,12 +35,49 @@ rule fetch_genome:
 
 
 rule get_annotation:
+output:
+        "refs/annotation.gtf",
+    params:
+        species="homo_sapiens",
+        release="87",
+        build="GRCh37",
+        flavor="",  # optional, filter more specific.
+    log:
+        "logs/get_annotation.log",
+    cache: True  # It saves time and space
+    wrapper:
+        "v1.5.0/bio/reference/ensembl-annotation"
 
 
-rule build_index:
+
+rule hisat2_index:
+    input:
+        fasta = "{genome}.fasta"
+    output:
+        directory("index_{genome}")
+    params:
+        prefix = "index_{genome}/"
+    log:
+        "logs/hisat2_index_{genome}.log"
+    threads: 2
+    wrapper:
+        "v1.5.0/bio/hisat2/index"
 
 
-rule hiSAT2_align:
+rule hisat2_align:
+    input:
+      reads=["reads/{sample}_R1.fastq", "reads/{sample}_R2.fastq"]
+    output:
+      "mapped/{sample}.bam"
+    log:
+        "logs/hisat2_align_{sample}.log"
+    params:
+      extra="",
+      idx="index/",
+    threads: 2
+    wrapper:
+      "v1.5.0/bio/hisat2/align"
+
 
 
 rule rSeqc:
