@@ -20,7 +20,29 @@ DATASETS= ["SRR14675535",
            "SRR14675540"]
            
 
-rule raw_Fastqc:
+import os
+import glob
+
+SRA, FRR = glob_wildcads("rawReads/{sra}_{frr}.fastq")
+
+rule all:
+    input:
+        expand("rawQC/{sra}_{frr}_fastqc.{extension") ,sra=SRA, frr=FRR, extension=["zip","html"])
+
+rule rawFastqc:
+    input:
+          rawread="rawReads/{sra}_{frr}.fastq"
+    output:
+          zip="rawQC/{sra}_{frr}_fastqc.zip"
+          html="rawQC/{sra}_{frr}_fastqc.html"
+    threads:
+         1
+    params:
+        path="rawQC/"
+    shell:
+       """
+       fastqc {input.rawread} --threads {threads}  -o {params.path}    
+       """
 
 
 
