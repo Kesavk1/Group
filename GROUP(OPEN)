@@ -102,7 +102,17 @@ rule hisat2_align:
 
 
 
-rule rSeqc:
+
+rule read_distribution:
+    input:
+        bam = "data/bam/{srr}.bam",
+        bed = config["gencodeBED"]
+    output:
+        "qc/aligned/{srr}.read_distribution.txt"
+    shell:
+        """
+        read_distribution.py -i {input.bam} -r {input.bed} &> {output}
+        """
 
 
 rule DEG:
