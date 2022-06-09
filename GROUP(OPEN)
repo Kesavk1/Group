@@ -46,16 +46,6 @@ rule rawFastqc:
 
 
 
-rule multiqc:
-
-
-rule preprocessing:
-
-
-rule fetch_genome:
-
-
-
 rule get_annotation:
 output:
         "refs/annotation.gtf",
@@ -99,6 +89,18 @@ rule hisat2_align:
     threads: 2
     wrapper:
       "v1.5.0/bio/hisat2/align"
+      
+rule Align_Qc:
+    input:
+        expand("samtools_stats/{SRR..}.txt", sample=["a", "b"])
+    output:
+        "qc/multiqc.html"
+    params:
+        ""  # Optional: extra parameters for multiqc.
+    log:
+        "logs/multiqc.log"
+    wrapper:
+        "v1.5.0/bio/multiqc"
 
 
 
